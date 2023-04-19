@@ -18,11 +18,39 @@
       crossorigin=""
     ></script>
   </head>
+
   <body>
-    <div>
-      <header></header>
-      <div>
-        <form action="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-02"></form>  
+    <div class="wrapper">
+      <header class="header">
+        <h1>INST377 Final Project - Earthquakes</h1>
+      </header>
+      <div class="container">
+        <div class="left_section box">
+          <h3>Filters</h3>
+            <form
+              action="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-02"
+              class="box main_form"
+            >
+            <button type="button" id="data_load">Load County Data</button>
+            <button type="button" id="data_clear">Clear County Data</button>
+            <div>
+              <input type="text" id="resto" name="resto" />
+            </div>
+          </form>
+        </div>
+        <div class="right_section box">
+          <h2>Local Restaurants</h2>
+          <div id="map" class="box"></div>
+          <ol class="box" id="restaurant_list">
+            A list of local restaurants
+          </ol>
+          <div class="lds-ellipsis" id="data_load_animation">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
