@@ -6,6 +6,16 @@ function filterList(list, query) {
     });
 }
 
+function injectHTML(list) {
+    console.log("fired injectHTML");
+    const target = document.querySelector("#restaurant_list");
+    target.innerHTML = "";
+    list.forEach((item) => {
+      const str = `<li>${item.name}</li>`;
+      target.innerHTML += str;
+    });
+}
+
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.ceil(max);
@@ -67,17 +77,17 @@ async function mainEvent() {
       });
 
     textField.addEventListener("input", (event) => {
-    console.log("input", event.target.value);
-    const newList = filterList(currentList, event.target.value);
-    console.log(newList);
-    injectHTML(newList);
-    markerPlace(newList, carto);
+        console.log("input", event.target.value);
+        const newList = filterList(currentList, event.target.value);
+        console.log(newList);
+        injectHTML(newList);
+        markerPlace(newList, carto);
     });
 
     clearButton.addEventListener("click", (event) => {
-    console.log('clear browser data');
-    localStorage.clear();
-    console.log ('localStorage Check', localStorage.getItem("storedData"));
+        console.log('clear browser data');
+        localStorage.clear();
+        console.log ('localStorage Check', localStorage.getItem("storedData"));
     })
 }
 
