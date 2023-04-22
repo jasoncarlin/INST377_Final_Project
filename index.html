@@ -29,19 +29,20 @@
       <div class="container">
         <div class="left_section box">
           <h3>Filters</h3>
-            <form
-              action="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-02"
-              class="box main_form"
-            >
-            <button type="button" id="data_load">Load Esrthquake Data</button>
+          <form
+            action="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-02"
+            class="box main_form"
+          >
+            <button type="button" id="data_load">Load Earthquake Data</button>
             <button type="button" id="data_clear">Clear Earthquake Data</button>
             <div>
-              <input type="text" id="resto" name="resto" />
+              <label for="eq">Filter by City</label>
+              <input type="text" id="eq" name="eq" />
             </div>
           </form>
         </div>
         <div class="right_section box">
-          <h2></h2>
+          <h2>Earthquake Locations</h2>
           <div id="map" class="box"></div>
           <div class="lds-ellipsis" id="data_load_animation">
             <div></div>
