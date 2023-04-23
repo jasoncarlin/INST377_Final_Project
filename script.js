@@ -22,8 +22,16 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function cutEQList(list) { 
+  console.log("fired cut list");
+  const range = [...Array(15).keys()];
+  return (newArray = range.map((item) => {
+    const index = getRandomIntInclusive(0, list.length - 1);
+    return list[index];
+  }))};
+
 function initmap() {
-  const carto = L.map("map").setView([38.98, -76.93], 13);
+  const carto = L.map("map").setView([38.98, -76.93], 1);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:
@@ -33,6 +41,7 @@ function initmap() {
 }
 
 function markerPlace(array, map) {
+  console.log(array);
   map.eachLayer((layer) => {
     if (layer instanceof L.Marker) {
       layer.remove();
@@ -41,9 +50,9 @@ function markerPlace(array, map) {
 
   array.forEach((item) => {
     console.log("markerPlace", item);
-    const { coordinates } = item.geometry;
+    
 
-    L.marker([coordinates[1], coordinates[0]]).addTo(map);
+    L.marker([item[1], item[0]]).addTo(map);
   });
 }
 
@@ -51,6 +60,7 @@ async function mainEvent() {
   const mainForm = document.querySelector(".main_form");
   const loadButton = document.querySelector("#data_load");
   const clearButton = document.querySelector("#data_clear");
+  const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#eq");
   const loadAnimation = document.querySelector("#data_load_animation");
   loadAnimation.style.display = "none";
@@ -61,6 +71,7 @@ async function mainEvent() {
   let parsedData = JSON.parse(storedData);
 
   let currentList = []; // this is "scoped" to the main event function
+  let coords = [];
 
   loadButton.addEventListener("click", async (submitEvent) => {
     console.log("loading data");
@@ -73,9 +84,16 @@ async function mainEvent() {
     const storedList = await results.json();
     localStorage.setItem("storedData", JSON.stringify(storedList));
     parsedData = storedList;
-
     
 
+    features = storedList.features;
+    
+    for (let i = 0; i < features.length; i++) {
+      const geometry = features[i].geometry;
+      const coordinates = geometry.coordinates;
+      coords.push(coordinates);
+    }
+    //console.log(coords);
     loadAnimation.style.display = "none";
 
     console.table(currentList);
@@ -88,25 +106,11 @@ async function mainEvent() {
     injectHTML(newList);
     markerPlace(newList, carto);
   });
-  /*
-  filterButton.addEventListener("click", (event) => {
-    console.log("clicked filterbutton");
-
-    const formData = new FormData(mainForm);
-    const formProps = Object.fromEntries(formData);
-
-    console.log(formProps);
-    const newList = filterList(currentList, formProps.resto);
-
-    console.log(newList);
-    injectHTML(newList);
-  });*/
-  
+ 
   generateListButton.addEventListener("click", (event) => {
     console.log("generate new list");
-    currentList = cutRestaurantList(parsedData);
-    console.log(currentList);
-    injectHTML(currentList);
+    currentList = cutEQList(coords);
+    //console.log(features);
     markerPlace(currentList, carto);
   });
 
