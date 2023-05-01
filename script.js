@@ -22,12 +22,15 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function cutEQList(list) { 
+function cutEQList(list, includeTsunamis = false) { 
   console.log("fired cut list");
+  const filteredList = includeTsunamis ? 
+    list.filter(item => item.properties.tsunami === 1):
+    list; 
   const range = [...Array(15).keys()];
   return (newArray = range.map((item) => {
-    const index = getRandomIntInclusive(0, list.length - 1);
-    return list[index];
+    const index = getRandomIntInclusive(0, filteredList.length - 1);
+    return filteredList[index];
   }))};
 
 function initmap() {
@@ -48,6 +51,7 @@ function markerPlace(array, map) {
     }
   });
 
+    
   array.forEach((item) => {
     console.log("markerPlace", item);
     
@@ -63,6 +67,7 @@ async function mainEvent() {
   const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#eq");
   const loadAnimation = document.querySelector("#data_load_animation");
+  const tsunamiCheckbox = document.getElementById('tsunami-checkbox');
   loadAnimation.style.display = "none";
 
   const carto = initmap();
@@ -70,7 +75,7 @@ async function mainEvent() {
   const storedData = localStorage.getItem("storedData");
   let parsedData = JSON.parse(storedData);
 
-  let currentList = []; // this is "scoped" to the main event function
+  let currentList = []; 
   let coords = [];
 
   loadButton.addEventListener("click", async (submitEvent) => {
@@ -98,6 +103,8 @@ async function mainEvent() {
 
     console.table(currentList);
   });
+
+  
 
   textField.addEventListener("input", (event) => {
     console.log("input", event.target.value);
