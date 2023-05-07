@@ -68,6 +68,7 @@ async function mainEvent() {
   const textField = document.querySelector("#eq");
   const loadAnimation = document.querySelector("#data_load_animation");
   const tsunamiCheckbox = document.getElementById('tsunami-checkbox');
+  const refreshButton = document.querySelector("#refresh_data");
   loadAnimation.style.display = "none";
 
   const carto = initmap();
@@ -127,6 +128,22 @@ async function mainEvent() {
     localStorage.clear();
     console.log("localStorage Check", localStorage.getItem("storedData"));
   });
+
+  refreshButton.addEventListener("click", async () => {
+    console.log("refresh")
+    loadAnimation.style.display = "inline-block";
+
+    const results = await fetch(
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-02"
+    );
+    
+    const newData = await results.json();
+    localStorage.setItem("storedData", JSON.stringify(newData));
+    parsedData = newData;
+
+    console.table(parsedData);
+    loadAnimation.style.display = "none";
+  })
 }
 
 document.addEventListener("DOMContentLoaded", async () => mainEvent());
