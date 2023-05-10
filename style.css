@@ -310,6 +310,10 @@
     margin-bottom: 0.5rem;
   }
   
+  .header-link {
+    float: right;
+  }
+  
   /* How To Write A Media Query For Small Screens */
   
   @media only screen and (max-width: 736px){
