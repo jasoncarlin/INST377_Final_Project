@@ -43,7 +43,7 @@ function initmap() {
   return carto;
 }
 
-function markerPlace(array, map) {
+function markerPlace(array, map, data) {
   console.log(array);
   map.eachLayer((layer) => {
     if (layer instanceof L.Marker) {
@@ -52,11 +52,36 @@ function markerPlace(array, map) {
   });
 
     
-  array.forEach((item) => {
-    console.log("markerPlace", item);
+  array.forEach((item, index) => {
     
+    const marker = L.marker([item[1], item[0]]).addTo(map);
+    
+    console.log(data[index].geometry.coordinates)
+    console.log(item)
+    
+    for (let i = 0; i < features.length; i++) { 
+      const eqCoords = data[i].geometry.coordinates;
+      const eqLat = eqCoords[1];
+      const eqLng = eqCoords[0];
 
-    L.marker([item[1], item[0]]).addTo(map);
+      if (item[0] === eqLng && item[1] === eqLat) {
+        const earthquake = data[i].properties;
+        
+        const magnitude = earthquake.mag;
+        const place = earthquake.place;
+        const url = earthquake.url;
+        
+        marker.bindPopup(
+          `<strong>Location:</strong> ${place}<br>
+          <strong>Magnitude:</strong> ${magnitude}<br>
+          <strong>URL:</strong> <a href="${url}" target="_blank">${url}</a>
+          <Strong>Coords:</strong> ${[item[1], item[0]]}<br>`
+        ).openPopup();
+      }
+      
+    }
+
+    
   });
 }
 
@@ -75,9 +100,11 @@ async function mainEvent() {
 
   const storedData = localStorage.getItem("storedData");
   let parsedData = JSON.parse(storedData);
-
+  
+  
   let currentList = []; 
   let coords = [];
+  let allFeatures = [];
 
   loadButton.addEventListener("click", async (submitEvent) => {
     console.log("loading data");
@@ -93,6 +120,8 @@ async function mainEvent() {
     
 
     features = storedList.features;
+    allFeatures = features;
+    
     
     for (let i = 0; i < features.length; i++) {
       const geometry = features[i].geometry;
@@ -100,9 +129,7 @@ async function mainEvent() {
       coords.push(coordinates);
     }
     //console.log(coords);
-    loadAnimation.style.display = "none";
-
-    console.table(currentList);
+    loadAnimation.style.display = "none";    
   });
 
   
@@ -112,14 +139,14 @@ async function mainEvent() {
     const newList = filterList(currentList, event.target.value);
     console.log(newList);
     injectHTML(newList);
-    markerPlace(newList, carto);
+    markerPlace(newList, carto, currentList);
   });
  
   generateListButton.addEventListener("click", (event) => {
     console.log("generate new list");
     currentList = cutEQList(coords);
-    //console.log(features);
-    markerPlace(currentList, carto);
+    
+    markerPlace(currentList, carto, allFeatures);
   });
 
   
