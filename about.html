@@ -3,27 +3,51 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Page</title>
+    <title>About</title>
     <link rel="stylesheet" href="aboutStyle.css" />
-    
-</head>
+  </head>
   <body>
-    <style>
-        body {
-          background-image: url("background.jpg");
-          background-size: cover;
-        }
-      </style>
-    <header class="header">
-      <h1>About Page<a href="index.html" class="header-link">Project</a></h1>
-      
-    </header>
-    
     <main>
-
-    </main>
+        <style>
+            body {
+              background-image: url("background.jpg");
+              background-size: cover;
+            }
+          </style>
+        <div>
+          <header class="header">
+            <h1>About Page<a href="index.html" class="header-link">Project</a></h1>
+          </header>
+          <div>
+            <p class="box" style="text-align: center;"> 
+                For my project I wanted to look at earthquakes and see how I can
+                manipulate the information and display it in an easy to understand
+                way.<br><br>
+                The API I used is from the  <a href="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-01-01&endtime=2020-01-02">US Government</a>.
+                It provides information on over 600 earthquakes that have happened
+                around the world. It includes information about the location, magnitude, 
+                depth, and more. This information is organized as a set of features
+                that allow us to sort and filter the earthquakes. This specific data 
+                contains earthquakes that occured between Jan 1st, 2020 and Jan 2nd,
+                2020. <br><br>
+                When it comes to the visualization that my project uses it is solely 
+                the map showing where the earthquakes occured. This uses the 
+                Leaflet JS library. For my CSS I used the thing we learned in 
+                class. Things such as containers and flex boxes, header and footer 
+                styles and more. My project is trying to show information about 
+                earthquakes and having a way to manipulate the data and make it 
+                easy to understand. 
+            </p>
+          </div>
+        </main>
+      <footer class="footer">
+        <a
+          href="http://github.com/jasoncarlin"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Jason Carlin's Github</a
+        >
+      </footer>
+    </div>
   </body>
-  <footer>
-
-  </footer>
 </html>
